@@ -6,12 +6,13 @@ bash wireguard-install.sh
 
 # store the default the network interface name
 NETWORK_INTERFACE=$(ip -4 route | awk '/default/ {print $5}' | head -n 1)
-PRIVATE_IP=$(ip -4 addr show $IFACE | awk '/inet/ {print $2}' | cut -d'/' -f1)
+
+# code not working so hardcoded in this example
+#PRIVATE_IP=$(ip -4 addr show $IFACE | awk '/inet/ {print $2}' | cut -d'/' -f1)
+PRIVATE_IP="172.26.14.128"
 
 # Ask the user for the client IP address
 read -p "Enter the client IP address: " CLIENT_IP
-
-# Assuming the wireguard interface is named wg0
 
 # Enable IP forwarding
 echo 'net.ipv4.ip_forward = 1' >> /etc/sysctl.conf
@@ -23,10 +24,12 @@ iptables -P INPUT ACCEPT
 iptables -P FORWARD ACCEPT
 iptables -P OUTPUT ACCEPT
 
-# Add iptables rules for ports 25, 80, and 443
+# Add iptables rules to open ports 25, 80, 443, 22, and 51820
 iptables -A INPUT -p tcp -m tcp --dport 25 -j ACCEPT
 iptables -A INPUT -p tcp -m tcp --dport 80 -j ACCEPT
 iptables -A INPUT -p tcp -m tcp --dport 443 -j ACCEPT
+iptables -A INPUT -p tcp -m tcp --dport 22 -j ACCEPT
+iptables -A INPUT -p tcp -m tcp --dport 51820 -j ACCEPT
 
 # Forward and masquerade all traffic from ports 25, 80, and 443 to the client
 iptables -A FORWARD -i wg0 -o $NETWORK_INTERFACE -p tcp -m multiport --dports 25,80,443 -d $CLIENT_IP -j ACCEPT
