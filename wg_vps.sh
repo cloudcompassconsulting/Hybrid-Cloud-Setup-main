@@ -5,7 +5,7 @@ wget https://git.io/wireguard -O wireguard-install.sh
 bash wireguard-install.sh
 
 # store the default the network interface name
-INTERFACE=$(ip route get 1.1.1.1 | awk '{print $5}')
+NETWORK_INTERFACE=$(ip route get 1.1.1.1 | awk '{print $5}')
 PRIVATE_IP=$(ip -o -f inet addr show dev $INTERFACE | awk -F '[ /]+' '/inet / {print $4}')
 SUBNET=$(ip -o -f inet addr show dev wg0 | awk '{print $4}')
 
@@ -13,7 +13,7 @@ SUBNET=$(ip -o -f inet addr show dev wg0 | awk '{print $4}')
 read -p "Enter the client IP address: " CLIENT_IP
 
 # Enable IP forwarding and MASQUERADE
-net.ipv4.ip_forward=1
+sysctl -w net.ipv4.ip_forward=1
 sysctl -p
 iptables -t nat -A POSTROUTING -s $SUBNET -o $INTERFACE -j MASQUERADE
 
@@ -35,6 +35,8 @@ PORTS="25,80,443"
 
 # Forward and masquerade all traffic from ports 25, 80, and 443 to the client
 iptables -A FORWARD -i wg0 -o $NETWORK_INTERFACE -p tcp -m multiport --dports $PORTS -d $CLIENT_IP -j ACCEPT
+#iptables -A FORWARD -i wg0 -o eth0 -p tcp -m multiport --dports "25,80,443" -d 10.7.0.2 -j ACCEPT
+
 iptables -t nat -A POSTROUTING -o $NETWORK_INTERFACE -p tcp -m multiport --dports $PORTS -d $CLIENT_IP -j MASQUERADE
 
 # Add the PostUp and PostDown commands to the WireGuard configuration file
@@ -47,4 +49,6 @@ echo "PostDown = iptables -t nat -D POSTROUTING -o $NETWORK_INTERFACE -j SNAT --
 sudo apt-get install -y iptables-persistent
 
 # Restart WireGuard for changes to take effect
+sudo systemctl enable --now wg-quick@wg0
+wg-quick up wg0
 wg-quick down wg0 && wg-quick up wg0
