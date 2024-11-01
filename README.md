@@ -19,15 +19,15 @@ This repository provides a hybrid cloud setup for deploying an e-commerce applic
 - WireGuard for VPN.
 
 ## Installation and Setup
-  ## 1. Domain Setup
+  1. Domain Setup
   Acquire a domain from Cloudflare and configure DNS records.
-  ## 2. Set up Google Cloud VPS
+  2. Set up Google Cloud VPS
   Obtain a free-tier VPS on Google Cloud, configure public IP, and SSH access.
-  ## 3. VPN Configuration
+  3. VPN Configuration
   Configure a secure VPN with WireGuard to connect the VPS with the local cluster.
-  ## 4. Kubernetes Cluster Setup
+  4. Kubernetes Cluster Setup
   Install K3s on the mini PC, configure nodes, and set up Traefik and MetalLB for load balancing.
-  ## 5. WordPress and MySQL Deployment
+  5. WordPress and MySQL Deployment
   Deploy WordPress and MySQL containers on Kubernetes with Helm.
-  ## 6. Frontend (Next.js) Setup
+  6. Frontend (Next.js) Setup
   Dockerize the Next.js application and deploy it on the Kubernetes cluster.
