@@ -14,42 +14,24 @@ This repository provides a hybrid cloud setup for deploying an e-commerce applic
 This architecture is designed to securely route traffic from the internet to a local Kubernetes cluster through a Google Cloud VPS acting as a VPN gateway. The application is separated into frontend, backend, and database components, all running in containers managed by Kubernetes.
 
 Components and Workflow
-  1. Domain and DNS
+1. Domain and DNS
 - Cloudflare domain (probarra.xyz) routes incoming traffic to the VPS.
 - A DNS A record points the domain to the VPS’s public IP.
-  2. Google Cloud VPS with WireGuard VPN
+2. Google Cloud VPS with WireGuard VPN
 - The Google Cloud VPS serves as a gateway, using WireGuard to establish a secure VPN connection to the local network where    Kubernetes is deployed.
 - WireGuard forwards requests from the internet to the local Kubernetes cluster.
-  3. Proxmox and Kubernetes Cluster
+3. Proxmox and Kubernetes Cluster
 - Proxmox is used on a local mini PC to virtualize multiple nodes, forming the Kubernetes cluster.
 - Kubernetes (via K3s) orchestrates containerized services, including the frontend, backend, and MySQL database, distributed 
   across virtual nodes.
-  4. Kubernetes Services
+4. Kubernetes Services
 - Frontend (Next.js): Dockerized and deployed on Kubernetes, communicating with WordPress’s REST API.
 - Backend (Headless WordPress): Acts as a CMS, delivering content to the frontend via REST API requests.
 - Database (MySQL): Provides persistent storage for WordPress, managed as a service within Kubernetes.
-  5. Load Balancing and Ingress
+5. Load Balancing and Ingress
 - Traefik as an Ingress controller handles HTTPS routing within the cluster.
 - MetalLB provides an internal load-balancer IP to balance traffic across Kubernetes services.
 - Traefik manages SSL certificates using Cert-Manager, ensuring secure communication with external users.
-
-    Client/User
-         |
-         ↓
-    Cloudflare Domain
-         |
-         ↓
-    Google Cloud VPS (WireGuard)
-         |
-         ↓
-    Proxmox (Mini PC with Virtual Machines)
-         |
-         ↓
-    Kubernetes Cluster (K3s)
-    ├── Traefik Ingress (SSL with Cert-Manager)
-    ├── Next.js Frontend (API Requests)
-    ├── WordPress API Backend
-    └── MySQL Database
 
 ## Prerequisites
 - Node.js and npm for the frontend.
