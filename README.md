@@ -47,10 +47,12 @@ Components and Workflow
   3. Create and manage virtual machines:
   Use Proxmox to virtualize the Kubernetes cluster. The virtual machines for the worker and master nodes as well as the        client virtual machine for the WireGuard protocol are created from a template virtual machine.    
   5. VPN Configuration:
-  Configure a secure VPN with WireGuard to connect the VPS with the local cluster. 
-  6. Kubernetes Cluster Setup:
+  Configure a secure VPN with WireGuard to connect the VPS with the local cluster.
+To set a VPN for secure networking use the [wireguard-install](https://github.com/Nyr/wireguard-install) script by Nyr. 
+Follow the instructions in the repository to configure WireGuard.
+  7. Kubernetes Cluster Setup:
   Install K3s on the mini PC, configure nodes, and set up Traefik and MetalLB for load balancing.
-  7. WordPress and MySQL Deployment:
+  8. WordPress and MySQL Deployment:
   Deploy WordPress and MySQL containers on Kubernetes.
-  8. Frontend (Next.js) Setup:
+  9. Frontend (Next.js) Setup:
   Dockerize the Next.js application and deploy it on the Kubernetes cluster.
