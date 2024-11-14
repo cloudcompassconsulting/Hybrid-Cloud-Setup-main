@@ -1,0 +1,27 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: registry-gc
+  namespace: default
+spec:
+  template:
+    spec:
+      containers:
+      - name: registry-gc
+        image: registry:2
+        command: ["/bin/sh", "-c", "registry garbage-collect /etc/docker/registry/config.yml"]
+        volumeMounts:
+        - name: registry-storage
+          mountPath: /var/lib/registry
+        - name: registry-config
+          mountPath: /etc/docker/registry/config.yml
+          subPath: config.yml
+      restartPolicy: Never
+      volumes:
+      - name: registry-storage
+        persistentVolumeClaim:
+          claimName: registry-pvc
+      - name: registry-config
+        configMap:
+          name: registry-config
+  backoffLimit: 1

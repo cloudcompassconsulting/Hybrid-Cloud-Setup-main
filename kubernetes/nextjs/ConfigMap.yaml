@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: probarra-config
+  namespace: default
+data:
+  NEXT_PUBLIC_WOOCOMMERCE_SITE_URL: "https://wordpress.local.probarra.xyz"
+  NEXT_PUBLIC_WOOCOMMERCE_CONSUMER_KEY: #your woocommerce consumer key
+  NEXT_PUBLIC_WOOCOMMERCE_CONSUMER_SECRET: #your woocommerce consumer secret
+  NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: #your stripe key
+  STRIPE_SECRET_KEY: #your stripe secret key
+  STRIPE_WEBHOOK_SECRET: #your webhook secret

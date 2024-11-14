@@ -1,0 +1,65 @@
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mysql-pass
+  namespace: default
+type: Opaque
+data:
+  password: #your password
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: mysql
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: mysql
+    spec:
+      containers:
+      - image: mysql:8.0
+        name: mysql
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mysql-pass
+              key: password
+        ports:
+        - containerPort: 3306
+          name: mysql
+        volumeMounts:
+        - name: mysql-persistent-storage
+          mountPath: /var/lib/mysql
+      initContainers:
+      - name: init-mysql
+        image: mysql:8.0
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mysql-pass
+              key: password
+        command:
+          [
+            'sh', '-c', 
+            "echo 'CREATE DATABASE IF NOT EXISTS wordpress;' > /docker-entrypoint-initdb.d/init.sql && \
+             echo 'CREATE USER IF NOT EXISTS \"wordpress_user\"@\"%\" IDENTIFIED WITH caching_sha2_password BY \"your_password\";' >> /docker-entrypoint-initdb.d/init.sql && \
+             echo 'GRANT ALL PRIVILEGES ON wordpress.* TO \"wordpress_user\"@\"%\";' >> /docker-entrypoint-initdb.d/init.sql && \
+             echo 'FLUSH PRIVILEGES;' >> /docker-entrypoint-initdb.d/init.sql"
+          ]
+        volumeMounts:
+        - name: mysql-persistent-storage
+          mountPath: /var/lib/mysql
+      volumes:
+      - name: mysql-persistent-storage
+        persistentVolumeClaim:
+          claimName: mysql-pvc

@@ -1,0 +1,15 @@
+# mysql-pv.yaml
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: mysql-pv
+spec:
+  capacity:
+    storage: 20Gi
+  accessModes:
+    - ReadWriteOnce
+  nfs:
+    path: /srv/nfs/kubedata/mysql
+    server: # your server IP adress
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: ""  # Ensure no StorageClass is used
