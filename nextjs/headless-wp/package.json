@@ -1,0 +1,38 @@
+{
+  "name": "headless-wp",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@nextui-org/avatar": "^2.0.32",
+    "@nextui-org/dropdown": "^2.1.29",
+    "@nextui-org/react": "^2.4.6",
+    "@nextui-org/system": "^2.2.5",
+    "@nextui-org/theme": "^2.2.9",
+    "@nextui-org/user": "^2.0.33",
+    "@stripe/stripe-js": "^4.1.0",
+    "axios": "^1.7.2",
+    "cookie": "^0.6.0",
+    "framer-motion": "^11.3.24",
+    "js-cookie": "^3.0.5",
+    "micro": "^10.0.1",
+    "next": "^14.2.5",
+    "next-cookies": "^2.0.3",
+    "node-cache": "^5.1.2",
+    "react": "^18",
+    "react-dom": "^18",
+    "sass": "^1.77.8",
+    "sharp": "^0.33.4",
+    "stripe": "^16.5.0",
+    "url": "^0.11.4"
+  },
+  "devDependencies": {
+    "postcss": "^8",
+    "tailwindcss": "^3.4.1"
+  }
+}
