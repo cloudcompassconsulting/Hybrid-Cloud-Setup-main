@@ -8,7 +8,7 @@ This repository provides a hybrid cloud setup for deploying an e-commerce applic
 - Backend: WordPress headless CMS with REST API.
 - Orchestration: Kubernetes for local container management.
 - Networking: Secure VPN setup using WireGuard for traffic redirection.
-- Deployment: Dockerized and deployed on Kubernetes with CI/CD integration.
+- Deployment: Dockerized and deployed on Kubernetes.
 
 ## Architecture
 This architecture is designed to securely route traffic from the internet to a local Kubernetes cluster through a Google Cloud VPS acting as a VPN gateway. The application is separated into frontend, backend, and database components, all running in containers managed by Kubernetes.
