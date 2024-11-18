@@ -41,20 +41,20 @@ Components and Workflow
 - Router.
 
 ## Installation and Setup
-  1. Domain Setup:
+1. Domain Setup:
   Acquire a domain from Cloudflare and configure DNS records.
 
-  2. Set up Google Cloud VPS:
+2. Set up Google Cloud VPS:
   Obtain a VPS on Google Cloud, configure public IP, and SSH access.
 
-  3. Create and manage virtual machines:
+3. Create and manage virtual machines:
   Use Proxmox to virtualize the Kubernetes cluster. Set up virtual machines for the worker and master nodes as well as the WireGuard client VM.
 
   - Reference: [JimsGarage by James Turland](https://github.com/JamesTurland/JimsGarage/tree/main/Kubernetes/Cloud-Init). For setting up Kubernetes virtual machines with Cloud-Init.
 
   - Now, the hostnames and IP addresses must be configured in the router in order to install and configure K3S in the cluster. Static IPs were created for each virtual machine, promox according to the IPS range allowed by the router.      
   
-  4. VPN Configuration:
+4. VPN Configuration:
   Configure a secure VPN using WireGuard to connect the VPS with the local cluster.
 
   - Reference: [wireguard-install] (https://github.com/Nyr/wireguard-install) script by Nyr. Additional details are in the vpn-setup section of this repository.
@@ -64,7 +64,7 @@ Components and Workflow
 
   - Finally, we need to install wireguard in the VM client that is inside the mini pc and set the configuration like a wireguard client. WireGuard creates the /etc/wireguard directory where the configuration files should be placed. Then, the client configuration file wg0.conf is created. In this file, the information previously generated in vm.conf is pasted and WireGuard is added as a service to the system with systemctl commands. Go to kubernetes>cloud-init>cli in this repo for more details
 
-  5. Kubernetes Cluster Setup:
+5. Kubernetes Cluster Setup:
   Install K3s on the mini PC, configure nodes, and set up Traefik and MetalLB for load balancing.
 
   - Reference: [James Turland’s `k3s.sh` script in JimsGarage](https://github.com/JamesTurland/JimsGarage/blob/main/Kubernetes/K3S-Deploy/k3s.sh).
@@ -79,7 +79,7 @@ Components and Workflow
 
 Once the Kubernetes cluster is set up, configure wildcard SSL certificates for your domain using Traefik, cert-manager, and Let's Encrypt. Follow these steps:
 
-  1. Install Traefik using Helm:
+  I. Install Traefik using Helm:
 
   - Add the Traefik Helm chart repository:
 
@@ -90,7 +90,7 @@ Once the Kubernetes cluster is set up, configure wildcard SSL certificates for y
 
         helm install traefik traefik/traefik --namespace traefik --create-namespace --set="additionalArguments={--certificatesresolvers.default.acme.email=YOUR_EMAIL,--certificatesresolvers.default.acme.storage=/data/acme.json,--certificatesresolvers.default.acme.httpChallenge.entryPoint=http}"
 
-  2. Install cert-manager:
+  II. Install cert-manager:
 
   - Add the cert-manager Helm chart:
 
@@ -101,7 +101,7 @@ Once the Kubernetes cluster is set up, configure wildcard SSL certificates for y
 
         helm install cert-manager jetstack/cert-manager --namespace cert-manager --create-namespace --set installCRDs=true
 
-  3. Configure Let’s Encrypt Issuer:
+  III. Configure Let’s Encrypt Issuer:
 
   - Create a ClusterIssuer resource for Let’s Encrypt in your Kubernetes cluster:
 
@@ -124,7 +124,7 @@ Once the Kubernetes cluster is set up, configure wildcard SSL certificates for y
 
         kubectl apply -f cluster-issuer.yaml
 
-  4. Request Wildcard Certificates:
+  IV. Request Wildcard Certificates:
 
   - Define a Certificate resource:
 
