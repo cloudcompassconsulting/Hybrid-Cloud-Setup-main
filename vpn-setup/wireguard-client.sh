@@ -15,18 +15,17 @@ sudo systemctl start wg-quick@wg0
 # Adjust firewall rules
 
 # Flush existing rules and set default policy to DROP
-sudo iptables -F
-sudo iptables -P INPUT DROP
-sudo iptables -P FORWARD DROP
-sudo iptables -P OUTPUT ACCEPT
+#sudo iptables -F
+#sudo iptables -P INPUT DROP
+#sudo iptables -P FORWARD DROP
+#sudo iptables -P OUTPUT ACCEPT
 
 # Allow established and related incoming connections
 sudo iptables -A INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
 
-# Allow incoming connections to ports 80, 443, and 25
+# Allow incoming connections to ports 80 (http) and 443 (https)
 sudo iptables -A INPUT -p tcp --dport 80 -j ACCEPT
 sudo iptables -A INPUT -p tcp --dport 443 -j ACCEPT
-sudo iptables -A INPUT -p tcp --dport 25 -j ACCEPT
 
 # Finally, enable IP forwarding
 echo "net.ipv4.ip_forward = 1" | sudo tee -a /etc/sysctl.conf
