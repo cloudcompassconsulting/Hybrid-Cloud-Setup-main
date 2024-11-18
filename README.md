@@ -79,7 +79,7 @@ Components and Workflow
 
 Once the Kubernetes cluster is set up, configure wildcard SSL certificates for your domain using Traefik, cert-manager, and Let's Encrypt. Follow these steps:
 
-1. Install Traefik using Helm:
+  1. Install Traefik using Helm:
 
   - Add the Traefik Helm chart repository:
 
@@ -90,7 +90,7 @@ Once the Kubernetes cluster is set up, configure wildcard SSL certificates for y
 
         helm install traefik traefik/traefik --namespace traefik --create-namespace --set="additionalArguments={--certificatesresolvers.default.acme.email=YOUR_EMAIL,--certificatesresolvers.default.acme.storage=/data/acme.json,--certificatesresolvers.default.acme.httpChallenge.entryPoint=http}"
 
-2. Install cert-manager:
+  2. Install cert-manager:
 
   - Add the cert-manager Helm chart:
 
@@ -101,7 +101,7 @@ Once the Kubernetes cluster is set up, configure wildcard SSL certificates for y
 
         helm install cert-manager jetstack/cert-manager --namespace cert-manager --create-namespace --set installCRDs=true
 
-3. Configure Let’s Encrypt Issuer:
+  3. Configure Let’s Encrypt Issuer:
 
   - Create a ClusterIssuer resource for Let’s Encrypt in your Kubernetes cluster:
 
@@ -124,7 +124,7 @@ Once the Kubernetes cluster is set up, configure wildcard SSL certificates for y
 
         kubectl apply -f cluster-issuer.yaml
 
-4. Request Wildcard Certificates:
+  4. Request Wildcard Certificates:
 
   - Define a Certificate resource:
 
@@ -149,8 +149,8 @@ Once the Kubernetes cluster is set up, configure wildcard SSL certificates for y
 - Full Tutorial: Wildcard Certificates with Traefik + cert-manager + Let’s Encrypt.
 
 
-  6. WordPress and MySQL Deployment:
+6. WordPress and MySQL Deployment:
   Deploy WordPress and MySQL containers on Kubernetes.
 
-  7. Frontend (Next.js) Setup:
+7. Frontend (Next.js) Setup:
   Dockerize the Next.js application and deploy it on the Kubernetes cluster.
