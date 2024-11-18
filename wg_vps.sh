@@ -24,18 +24,17 @@ iptables -P FORWARD ACCEPT
 iptables -P OUTPUT ACCEPT
 
 
-# Add iptables rules for ports 22, 25, 80, and 443
+# Add iptables rules for ports 22, 80, and 443
 iptables -A INPUT -p tcp -m tcp --dport 22 -j ACCEPT
-iptables -A INPUT -p tcp -m tcp --dport 25 -j ACCEPT
 iptables -A INPUT -p tcp -m tcp --dport 80 -j ACCEPT
 iptables -A INPUT -p tcp -m tcp --dport 443 -j ACCEPT
 
 # Define the ports you want to forward
-PORTS="25,80,443"
+PORTS="80,443"
 
-# Forward and masquerade all traffic from ports 25, 80, and 443 to the client
+# Forward and masquerade all traffic from ports 80, and 443 to the client
 iptables -A FORWARD -i wg0 -o $NETWORK_INTERFACE -p tcp -m multiport --dports $PORTS -d $CLIENT_IP -j ACCEPT
-#iptables -A FORWARD -i wg0 -o eth0 -p tcp -m multiport --dports "25,80,443" -d 10.7.0.2 -j ACCEPT
+#iptables -A FORWARD -i wg0 -o eth0 -p tcp -m multiport --dports "80,443" -d 10.7.0.2 -j ACCEPT
 
 iptables -t nat -A POSTROUTING -o $NETWORK_INTERFACE -p tcp -m multiport --dports $PORTS -d $CLIENT_IP -j MASQUERADE
 
