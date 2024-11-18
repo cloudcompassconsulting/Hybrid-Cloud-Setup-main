@@ -21,7 +21,7 @@ Components and Workflow
 - The Google Cloud VPS serves as a gateway, using WireGuard to establish a secure VPN connection to the local network where    Kubernetes is deployed.
 - WireGuard forwards requests from the internet to the local Kubernetes cluster.
 3. Proxmox and Kubernetes Cluster
-- Proxmox is used on a local mini PC to virtualize multiple nodes, forming the Kubernetes cluster.
+- Proxmox is used on a local mini PC to virtualize multiple virtual machines, forming the Kubernetes cluster.
 - Kubernetes (via K3s) orchestrates containerized services, including the frontend, backend, and MySQL database, distributed 
   across virtual nodes.
 4. Kubernetes Services
@@ -38,6 +38,7 @@ Components and Workflow
 - Docker and Kubernetes for container management.
 - Google Cloud Account for VPS setup.
 - WireGuard for VPN.
+- Router.
 
 ## Installation and Setup
   1. Domain Setup:
@@ -60,7 +61,7 @@ Components and Workflow
     Follow the instructions in the repository to install and configure WireGuard in the VPS. This configuration allows the VPS to act like a wireguard server and define one wireguard client wich is going to be one virtual machine inside the mini pc. 
     You can also go to the section vpn-setup, wireguard-install.sh script in this repo.
 
-    B. After installing and configure wireguard in the VPS, we need to set the iptables to enrute the trafic. To set the ip tables refer to this [WireGuard configuration example by mochman](https://github.com/mochman/Bypass_CGNAT/blob/main/Wireguard%20Configs/VPS/wg0.conf). by mochman.
+    B. After installing and configure wireguard in the VPS, we need to set the iptables to route the trafic. To set the ip tables refer to this [WireGuard configuration example by mochman](https://github.com/mochman/Bypass_CGNAT/blob/main/Wireguard%20Configs/VPS/wg0.conf). by mochman.
     You can also go to the section vpn-setup, wireguard-config.sh script in this repo.
 
     C. Finally, we need to install wireguard in the VM client that is inside the mini pc and set the configuration like a wireguard client. WireGuard creates the /etc/wireguard directory where the configuration files should be placed. Then, the client configuration file wg0.conf is created. In this file, the information previously generated in vm.conf is pasted and WireGuard is added as a service to the system with systemctl commands. Go to kubernetes>cloud-init>cli in this repo for more details
