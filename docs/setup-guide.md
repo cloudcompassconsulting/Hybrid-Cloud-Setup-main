@@ -87,16 +87,8 @@ qm set 5000 --serial0 socket --vga serial0
      [Wireguard Configuration](../vpn-setup/client/wireguard-client-iptables.sh) in this repository.
 
 
-## Step 5: Kubernetes Cluster Setup (K3s)
-1. **Deploy K3s** on the mini PC:
-   ```bash
-   curl -sfL https://get.k3s.io | sh -
-   ```
-2. **Install MetalLB for Load Balancing**:
-   ```bash
-   kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.13.12/config/manifests/metallb-native.yaml
-   ```
-3. **Install Traefik as an Ingress Controller**:
+## Step 5: Install K3s
+1. **Install Traefik as an Ingress Controller**:
    - Refer to the [K3s deploy script](../k3s/k3s.sh). in this repository.
 
 
