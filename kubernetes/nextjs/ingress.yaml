@@ -10,7 +10,7 @@ spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host(`probarra.xyz`)
+    - match: Host(`example.com`)
       kind: Rule
       services:
         - name: nextjs-service

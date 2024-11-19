@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: nextjs-app
-        image: registry.local.probarra.xyz/probarra-nextjs-app:local
+        image: registry.local.example.com/probarra-nextjs-app:local
         ports:
         - containerPort: 3000
         resources:

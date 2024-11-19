@@ -15,7 +15,7 @@ This architecture is designed to securely route traffic from the internet to a l
 
 Components and Workflow
 1. Domain and DNS
-- Cloudflare domain (probarra.xyz) routes incoming traffic to the VPS.
+- Cloudflare domain (example.com) routes incoming traffic to the VPS.
 - A DNS A record points the domain to the VPS’s public IP.
 2. Google Cloud VPS with WireGuard VPN
 - The Google Cloud VPS serves as a gateway, using WireGuard to establish a secure VPN connection to the local network where    Kubernetes is deployed.

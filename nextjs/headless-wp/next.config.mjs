@@ -3,11 +3,11 @@
 const ContentSecurityPolicy = `
   default-src 'self';
   default-src 'none';
-  script-src 'self' 'unsafe-eval' 'unsafe-inline' https://probarra.xyz;
-  style-src 'self' 'unsafe-inline' https://probarra.xyz;
-  img-src 'self' https://wordpress.local.probarra.xyz blob: data:;
+  script-src 'self' 'unsafe-eval' 'unsafe-inline' https://example.com;
+  style-src 'self' 'unsafe-inline' https://example.com;
+  img-src 'self' https://wordpress.local.example.com blob: data:;
   media-src 'none';
-  connect-src 'self' https://wordpress.local.probarra.xyz;
+  connect-src 'self' https://wordpress.local.example.com;
   font-src 'self';
 `;
 
@@ -17,7 +17,7 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'wordpress.local.probarra.xyz',
+        hostname: 'wordpress.local.example.com',
         pathname: '/wp-content/uploads/**',
       },
     ],

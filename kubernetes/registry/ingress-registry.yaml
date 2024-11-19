@@ -10,7 +10,7 @@ spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host(`registry.local.probarra.xyz`)
+    - match: Host(`registry.local.example.com`)
       kind: Rule
       services:
         - name: registry

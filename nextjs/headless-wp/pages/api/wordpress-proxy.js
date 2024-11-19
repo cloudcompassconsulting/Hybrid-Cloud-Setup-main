@@ -14,7 +14,7 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'URL or endpoint is required' });
   }
 
-  const baseUrl = 'https://wordpress.local.probarra.xyz'; // Using the WordPress base URL directly
+  const baseUrl = 'https://wordpress.local.example.com'; // Using the WordPress base URL directly
   let targetUrl;
 
   if (endpoint) {
