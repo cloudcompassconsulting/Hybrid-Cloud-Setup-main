@@ -167,12 +167,15 @@ qm set 5000 --serial0 socket --vga serial0
 2. Deploy the Registry
    - Run the Docker Registry inside the cluster using the deployment and service files:
 ``` bash
+   kubectl apply -f configmap-registry.yaml
    kubectl apply -f deployment-registry.yaml
    kubectl apply -f service-registry.yaml
+   kubectl apply -f ingress-registry.yaml
 ```
-3. Apply the Ingress configuration:
+3. Push and update images using update-deployment.sh:
 ``` bash
-kubectl apply -f ingress-registry.yaml
+  chmod +x update-deployment.sh
+./update-deployment.sh
 ```
 4. Test the Registry
    - Verify the registry is accessible:
@@ -184,6 +187,10 @@ curl -X GET https://registry.local.example.com/v2/_catalog
 ``` bash
 docker login registry.local.example.com
 ```
+6. Perform garbage collection to reclaim space:
+  ```bash
+  kubectl apply -f gc-registry.yaml
+  ```
 
 ## Step 8: Update the deployment
 Refer to the [update deployment script](../nextjs/headless-wp/update-deployment.sh). in this repository.

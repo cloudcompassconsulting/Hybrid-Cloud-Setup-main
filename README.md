@@ -93,23 +93,11 @@ Once the Kubernetes cluster is set up, configure wildcard SSL certificates for y
 This project includes a private Docker Registry running inside the Kubernetes cluster. A private Docker Registry allows you to securely store, manage, and distribute container images without relying on public registries.
 
 Usage:
-  I. Deploy the registry in the cluster:
-  ```bash
-kubectl apply -f configmap-registry.yaml
-kubectl apply -f deployment-registry.yaml
-kubectl apply -f service-registry.yaml
-kubectl apply -f ingress-registry.yaml
-  ```
-  II. Push and update images using update-deployment.sh:
-  ```bash
-  chmod +x update-deployment.sh
-./update-deployment.sh
-  ```
-  III. Perform garbage collection to reclaim space:
-  ```bash
-  kubectl apply -f gc-registry.yaml
-  ```
+  I. Deploy the registry in the cluster.
+  II. Push and update images using update-deployment.sh.
+  III. Perform garbage collection to reclaim space.
 
+- Follow the guide Step 7: Setting Up a Private Docker Registry (../docs/setup-guide.md)
 
 6. WordPress and MySQL Deployment:
   Deploy WordPress and MySQL containers on Kubernetes.
