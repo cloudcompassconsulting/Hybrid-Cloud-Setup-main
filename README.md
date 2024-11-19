@@ -75,6 +75,12 @@ Components and Workflow
   - Configure Traefik as login controller and Cert-Manager for automatic SSL certificate management. Refer to [Techno Tim’s guide on Traefik and Cert-Manager](https://github.com/techno-tim/launchpad/tree/master/kubernetes/traefik-cert-manager). 
     In this repo, go to kubernetes folder for more details.
 
+6. WordPress and MySQL Deployment:
+  Deploy WordPress and MySQL containers on Kubernetes.
+
+7. Frontend (Next.js) Setup:
+  Dockerize the Next.js application and deploy it on the Kubernetes cluster.
+
 ## Wildcard SSL Certificates with Traefik and cert-manager
 
 Once the Kubernetes cluster is set up, configure wildcard SSL certificates for your domain using Traefik, cert-manager, and Let's Encrypt. Follow these steps:
@@ -99,8 +105,4 @@ Usage:
 
 - Follow the guide Step 7: Setting Up a Private Docker Registry [setup-guide](docs/setup-guide.md)
 
-6. WordPress and MySQL Deployment:
-  Deploy WordPress and MySQL containers on Kubernetes.
 
-7. Frontend (Next.js) Setup:
-  Dockerize the Next.js application and deploy it on the Kubernetes cluster.
