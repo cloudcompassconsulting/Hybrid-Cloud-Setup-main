@@ -84,7 +84,7 @@ Once the Kubernetes cluster is set up, configure wildcard SSL certificates for y
   III. Configure Let’s Encrypt Issuer.
   IV. Request Wildcard Certificates.
 
-- Follow the guide Step 6: Set Up Wildcard SSL Certificates (../docs/setup-guide.md)
+- Follow the guide Step 6: Set Up Wildcard SSL Certificates [setup-guide](docs/setup-guide.md)
 - Full Tutorial: [Techno Tim's Guide](https://technotim.live/posts/kube-traefik-cert-manager-le/#helm) 
 
 
@@ -97,7 +97,7 @@ Usage:
   II. Push and update images using update-deployment.sh.
   III. Perform garbage collection to reclaim space.
 
-- Follow the guide Step 7: Setting Up a Private Docker Registry (../docs/setup-guide.md)
+- Follow the guide Step 7: Setting Up a Private Docker Registry [setup-guide](docs/setup-guide.md)
 
 6. WordPress and MySQL Deployment:
   Deploy WordPress and MySQL containers on Kubernetes.
