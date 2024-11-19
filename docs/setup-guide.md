@@ -158,7 +158,51 @@ qm set 5000 --serial0 socket --vga serial0
    ```
 
 
-## Step 7: Application Deployment
+## Step 7: Setting Up a Private Docker Registry
+1.  Create the ConfigMap
+   - Apply the ConfigMap for the registry configuration:
+``` bash
+   kubectl apply -f configmap-registry.yaml
+```
+2. Deploy the Registry
+   - Run the Docker Registry inside the cluster using the deployment and service files:
+``` bash
+   kubectl apply -f deployment-registry.yaml
+   kubectl apply -f service-registry.yaml
+```
+3. Apply the Ingress configuration:
+``` bash
+kubectl apply -f ingress-registry.yaml
+```
+4. Test the Registry
+   - Verify the registry is accessible:
+``` bash
+curl -X GET https://registry.local.probarra.xyz/v2/_catalog
+```
+5. Use the Registry
+   - Authenticate Docker with your registry:
+``` bash
+docker login registry.local.probarra.xyz
+```
+   - Build, tag, and push your images:
+``` bash
+docker build -t probarra-nextjs-app:local .
+docker tag probarra-nextjs-app:local registry.local.probarra.xyz/probarra-nextjs-app:local
+docker push registry.local.probarra.xyz/probarra-nextjs-app:local
+```
+   - Update deployments in Kubernetes:
+``` bash
+kubectl set image deployment/nextjs-app nextjs-app=registry.local.probarra.xyz/probarra-nextjs-app:local -n default
+```
+6. Enable Garbage Collection
+   - To optimize storage, run garbage collection:
+
+``` bash
+kubectl apply -f gc-registry.yaml 
+```
+
+
+## Step 8: Application Deployment
 ### WordPress and MySQL
 1. Apply the WordPress deployment:
    ```bash
@@ -177,7 +221,7 @@ qm set 5000 --serial0 socket --vga serial0
    ```
 
 
-## Step 8: Testing and Validation
+## Step 9: Testing and Validation
 1. Verify all pods are running:
    ```bash
    kubectl get pods --all-namespaces
