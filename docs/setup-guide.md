@@ -184,7 +184,7 @@ curl -X GET https://registry.local.probarra.xyz/v2/_catalog
 ``` bash
 docker login registry.local.probarra.xyz
 ```
-   - Build, tag, and push your images:
+<!--    - Build, tag, and push your images:
 ``` bash
 docker build -t probarra-nextjs-app:local .
 docker tag probarra-nextjs-app:local registry.local.probarra.xyz/probarra-nextjs-app:local
@@ -197,7 +197,7 @@ kubectl set image deployment/nextjs-app nextjs-app=registry.local.probarra.xyz/p
 6. Enable Garbage Collection
    - To optimize storage, run garbage collection:
 ``` bash
-kubectl apply -f gc-registry.yaml 
+kubectl apply -f gc-registry.yaml  -->
 ```
 
 
