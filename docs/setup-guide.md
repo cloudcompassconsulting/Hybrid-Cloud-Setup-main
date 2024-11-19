@@ -93,39 +93,87 @@ qm set 5000 --serial0 socket --vga serial0
 
 
 ## Step 6: Set Up Wildcard SSL Certificates
-1. Install **Traefik** using Helm:
+1. Install **Helm**
    ```bash
-   helm repo add traefik https://traefik.github.io/charts
-   helm repo update
-   helm install traefik traefik/traefik --namespace traefik --create-namespace
+   curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+   chmod 700 get_helm.sh
+   ./get_helm.sh
    ```
-2. Install **cert-manager**:
+2. Install **Traefik** using Helm:
+   ```bash
+   helm repo add traefik https://helm.traefik.io/traefik
+   helm repo update
+   kubectl create namespace traefik
+   helm install --namespace=traefik traefik traefik/traefik --values=values.yaml
+   ```
+   - Apply middleware:
+   ```bash
+   kubectl apply -f default-headers.yaml
+   ```
+  - Install htpassword:
+   ```bash
+   sudo apt-get update
+   sudo apt-get install apache2-utils
+   ```
+   - Generate a credential / password that’s base64 encoded:
+   ```bash
+   htpasswd -nb techno password | openssl base64
+   ```
+   - Apply secret:
+   ```bash
+   kubectl apply -f secret-dashboard.yaml
+   ```
+   - Apply middleware:
+   ```bash
+   kubectl apply -f middleware.yaml
+   ```
+   - Apply dashboard:
+   ```bash
+   kubectl apply -f ingress.yaml
+   ```
+3. Install **cert-manager**:
    ```bash
    helm repo add jetstack https://charts.jetstack.io
    helm repo update
-   helm install cert-manager jetstack/cert-manager --namespace cert-manager --create-namespace --set installCRDs=true
+   kubectl create namespace cert-manager
+   kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.9.1/cert-manager.crds.yaml
+   helm install cert-manager jetstack/cert-manager --namespace cert-manager --values=values.yaml --version v1.9.1   
+   ```
+   - Apply secrets:
+   ```bash
+   kubectl apply -f secret-cf-token.yaml
+   kubectl apply -f letsencrypt-staging.yaml
    ```
 
-3. Configure Let’s Encrypt:
-   - Refer to [Wildcard Certificates Setup Guide](../certificates/wildcard-certificates-setup.md).
+4. Create de certs:
+   From certificates/staging folder
+   ```bash
+   kubectl apply -f local-example-com.yaml
+   ```    
+
+5. Production
+   ```bash
+   kubectl apply -f letsencrypt-production.yaml
+   kubectl apply -f local-example-com.yaml
+   ```
 
 
 ## Step 7: Application Deployment
 ### WordPress and MySQL
 1. Apply the WordPress deployment:
    ```bash
-   kubectl apply -f kubernetes/deployments/wordpress.yaml
+   kubectl apply -f kubernetes/wordpress/deployment.yaml
    ```
 2. Deploy MySQL:
    ```bash
-   kubectl apply -f kubernetes/deployments/mysql.yaml
+   kubectl apply -f kubernetes/mysql/deployment.yaml
    ```
 
 ### Frontend (Next.js)
 1. Dockerize the application (if not already done).
 2. Deploy the frontend:
    ```bash
-   kubectl apply -f kubernetes/deployments/frontend.yaml
+   kubectl apply -f kubernetes/nextjs/deployment.yaml
    ```
 
 
