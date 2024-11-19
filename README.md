@@ -79,74 +79,13 @@ Components and Workflow
 
 Once the Kubernetes cluster is set up, configure wildcard SSL certificates for your domain using Traefik, cert-manager, and Let's Encrypt. Follow these steps:
 
-  I. Install Traefik using Helm:
+  I. Install Traefik using Helm.
+  II. Install cert-manager.
+  III. Configure Let’s Encrypt Issuer.
+  IV. Request Wildcard Certificates.
 
-  - Add the Traefik Helm chart repository:
-
-        helm repo add traefik https://traefik.github.io/charts
-        helm repo update
-
-  - Install Traefik with Helm:
-
-        helm install traefik traefik/traefik --namespace traefik --create-namespace --set="additionalArguments={--certificatesresolvers.default.acme.email=YOUR_EMAIL,--certificatesresolvers.default.acme.storage=/data/acme.json,--certificatesresolvers.default.acme.httpChallenge.entryPoint=http}"
-
-  II. Install cert-manager:
-
-  - Add the cert-manager Helm chart:
-
-        helm repo add jetstack https://charts.jetstack.io
-        helm repo update
-
-  - Install cert-manager:
-
-        helm install cert-manager jetstack/cert-manager --namespace cert-manager --create-namespace --set installCRDs=true
-
-  III. Configure Let’s Encrypt Issuer:
-
-  - Create a ClusterIssuer resource for Let’s Encrypt in your Kubernetes cluster:
-
-        apiVersion: cert-manager.io/v1
-        kind: ClusterIssuer
-        metadata:
-          name: letsencrypt
-        spec:
-          acme:
-            email: YOUR_EMAIL
-            server: https://acme-v02.api.letsencrypt.org/directory
-            privateKeySecretRef:
-              name: letsencrypt-account-key
-            solvers:
-            - http01:
-                ingress:
-                  class: traefik
-          
-  - Apply the configuration:
-
-        kubectl apply -f cluster-issuer.yaml
-
-  IV. Request Wildcard Certificates:
-
-  - Define a Certificate resource:
-
-        apiVersion: cert-manager.io/v1
-        kind: Certificate
-        metadata:
-          name: wildcard-cert
-          namespace: default
-        spec:
-          secretName: wildcard-cert-secret
-          dnsNames:
-          - "*.yourdomain.com"
-          - "yourdomain.com"
-          issuerRef:
-            name: letsencrypt
-            kind: ClusterIssuer
-
-  - Apply the configuration:
-
-        kubectl apply -f wildcard-certificate.yaml
-
-- Full Tutorial: Wildcard Certificates with Traefik + cert-manager + Let’s Encrypt.
+- Follow the guide Step 6: Set Up Wildcard SSL Certificates (../docs/setup-guide.md)
+- Full Tutorial: [Techno Tim's Guide](https://technotim.live/posts/kube-traefik-cert-manager-le/#helm) 
 
 
 ## Private Docker Registry in Kubernetes
