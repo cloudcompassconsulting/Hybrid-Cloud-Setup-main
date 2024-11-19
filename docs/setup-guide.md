@@ -32,18 +32,9 @@ This hybrid cloud architecture involves:
 
 ---
 
----
-
-### **Actualización del `setup-guide.md`**
-
-En el archivo `setup-guide.md`, puedes detallar los pasos completos bajo una nueva sección para **WordPress and Stripe Setup**:
-
-```markdown
 ## WordPress and Stripe Setup
 
 This section covers the integration of WordPress as the CMS and Stripe as the payment gateway for your e-commerce application.
-
----
 
 ## Step 1: Create WordPress and Stripe Accounts
 1. **WordPress:**
@@ -54,8 +45,6 @@ This section covers the integration of WordPress as the CMS and Stripe as the pa
    - Open an account at [Stripe](https://stripe.com/).
    - Complete the onboarding process to enable payment processing.
 
----
-
 - Install Necessary Plugins
 1. Log in to the WordPress admin dashboard.
 2. Navigate to **Plugins > Add New**.
@@ -63,16 +52,12 @@ This section covers the integration of WordPress as the CMS and Stripe as the pa
    - **JSON Basic Authentication** (version 0.1): Required for API authentication.
    - **WooCommerce** (version 9.0.2): Adds e-commerce functionality.
 
----
-
 - Generate Access Keys
 1. In **WooCommerce Settings**, navigate to the **Payments** tab.
 2. Connect your WooCommerce store to Stripe using your Stripe account.
 3. Generate and save the following Stripe API keys:
    - **Publishable Key**.
    - **Secret Key**.
-
----
 
 - Configure APIs
 1. Enable WordPress REST API by ensuring the **JSON Basic Authentication** plugin is active.
@@ -91,7 +76,6 @@ This section covers the integration of WordPress as the CMS and Stripe as the pa
      curl -X GET https://yourwordpresssite.com/wp-json/wc/v3/products -u consumer_key:consumer_secret
      ```
 
----
 
 ## Step 2: Domain Configuration
 1. Acquire a domain from Cloudflare (e.g., `yourdomain.com`).
