@@ -48,32 +48,38 @@ Components and Workflow
   Obtain a VPS on Google Cloud, configure public IP, and SSH access.
 
 3. Create and manage virtual machines:
-  Use Proxmox to virtualize the Kubernetes cluster. Set up virtual machines for the worker and master nodes as well as the WireGuard client VM.
+    - Use Proxmox to virtualize the Kubernetes cluster. Set up virtual machines for the worker and master nodes as well as the WireGuard client VM.
+    Go to [createvm.md] (proxmox/createvm.md).
 
-  - Reference: [JimsGarage by James Turland](https://github.com/JamesTurland/JimsGarage/tree/main/Kubernetes/Cloud-Init). For setting up Kubernetes virtual machines with Cloud-Init.
-
-  - Now, the hostnames and IP addresses must be configured in the router in order to install and configure K3S in the cluster. Static IPs were created for each virtual machine, promox according to the IPS range allowed by the router.      
+    - Now, the hostnames and IP addresses must be configured in the router in order to install and configure K3S in the cluster. Static IPs were created for each virtual machine, promox according to the IPS range allowed by the router.      
   
+    - Reference: [JimsGarage by James Turland](https://github.com/JamesTurland/JimsGarage/tree/main/Kubernetes/Cloud-Init). 
+
 4. VPN Configuration:
   Configure a secure VPN using WireGuard to connect the VPS with the local cluster.
 
-  - Reference: [wireguard-install] (https://github.com/Nyr/wireguard-install) script by Nyr. Additional details are in the vpn-setup section of this repository.
+  - Follow the instructions Step 4: Configure WireGuard VPN [setup-guide] (docs/setup-guide.md) that refers to [vpn-setup] folder. 
+  Use: [wg_vps.sh] (vpn-setup/vps/wg_vps.sh)
 
-  - After installing and configure wireguard in the VPS, we need to set the iptables to route the trafic. To set the ip tables refer to this [WireGuard configuration example by mochman](https://github.com/mochman/Bypass_CGNAT/blob/main/Wireguard%20Configs/VPS/wg0.conf). by mochman.
-    You can also go to the section vpn-setup, wireguard-config.sh script in this repo.
+  - Later, we need to install wireguard in the VM client that is inside the mini pc and set the configuration like a wireguard client. WireGuard creates the /etc/wireguard directory where the configuration files should be placed. Then, the client configuration file wg0.conf is created. In this file, the information previously generated in vm.conf is pasted and WireGuard is added as a service to the system with systemctl commands. 
 
-  - Finally, we need to install wireguard in the VM client that is inside the mini pc and set the configuration like a wireguard client. WireGuard creates the /etc/wireguard directory where the configuration files should be placed. Then, the client configuration file wg0.conf is created. In this file, the information previously generated in vm.conf is pasted and WireGuard is added as a service to the system with systemctl commands. Go to kubernetes>cloud-init>cli in this repo for more details
+  - Finally, we need to set the iptables to route the trafic. 
+  Go to [wireguard-client-iptables.sh] (vpn-setup/client/wireguard-client-iptables.sh)
+
+   - Reference: To install wireguard [wireguard-install] (https://github.com/Nyr/wireguard-install) script by Nyr. 
+   - Reference:To set the ip tables refer to this [WireGuard configuration example by mochman](https://github.com/mochman/Bypass_CGNAT/blob/main/Wireguard%20Configs/VPS/wg0.conf). by mochman.
 
 5. Kubernetes Cluster Setup:
   Install K3s on the mini PC, configure nodes, and set up Traefik and MetalLB for load balancing.
 
-  - Reference: [James Turland’s `k3s.sh` script in JimsGarage](https://github.com/JamesTurland/JimsGarage/blob/main/Kubernetes/K3S-Deploy/k3s.sh).
-    Go to kubernetes>k3s-deploy>k3s.sh in this repo for more details.
+  - For installation [k3s.sh] (k3s/k3s.sh) 
 
   - Configure local DNS entries on the router to resolve the virtual IP of the load balancer.
 
-  - Configure Traefik as login controller and Cert-Manager for automatic SSL certificate management. Refer to [Techno Tim’s guide on Traefik and Cert-Manager](https://github.com/techno-tim/launchpad/tree/master/kubernetes/traefik-cert-manager). 
-    In this repo, go to kubernetes folder for more details.
+  - Configure Traefik as login controller and Cert-Manager for automatic SSL certificate management. (More details below in the section: Wildcard SSL Certificates with Traefik and cert-manager)
+
+  - Reference: [James Turland’s `k3s.sh` script in JimsGarage](https://github.com/JamesTurland/JimsGarage/blob/main/Kubernetes/K3S-Deploy/k3s.sh).
+  - Reference: To  [Techno Tim’s guide on Traefik and Cert-Manager](https://github.com/techno-tim/launchpad/tree/master/kubernetes/traefik-cert-manager). 
 
 6. WordPress and MySQL Deployment:
   Deploy WordPress and MySQL containers on Kubernetes.
