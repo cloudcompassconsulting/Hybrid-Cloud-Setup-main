@@ -177,31 +177,19 @@ kubectl apply -f ingress-registry.yaml
 4. Test the Registry
    - Verify the registry is accessible:
 ``` bash
-curl -X GET https://registry.local.probarra.xyz/v2/_catalog
+curl -X GET https://registry.local.example.com/v2/_catalog
 ```
 5. Use the Registry
    - Authenticate Docker with your registry:
 ``` bash
-docker login registry.local.probarra.xyz
-```
-<!--    - Build, tag, and push your images:
-``` bash
-docker build -t probarra-nextjs-app:local .
-docker tag probarra-nextjs-app:local registry.local.probarra.xyz/probarra-nextjs-app:local
-docker push registry.local.probarra.xyz/probarra-nextjs-app:local
-```
-   - Update deployments in Kubernetes:
-``` bash
-kubectl set image deployment/nextjs-app nextjs-app=registry.local.probarra.xyz/probarra-nextjs-app:local -n default
-```
-6. Enable Garbage Collection
-   - To optimize storage, run garbage collection:
-``` bash
-kubectl apply -f gc-registry.yaml  -->
+docker login registry.local.example.com
 ```
 
+## Step 8: Update the deployment
+Refer to the [update deployment script](../nextjs/headless-wp/update-deployment.sh). in this repository.
 
-## Step 8: Application Deployment
+
+## Step 9: Application Deployment
 ### WordPress and MySQL
 1. Apply the WordPress deployment:
    ```bash
@@ -220,7 +208,7 @@ kubectl apply -f gc-registry.yaml  -->
    ```
 
 
-## Step 9: Testing and Validation
+## Step 10: Testing and Validation
 1. Verify all pods are running:
    ```bash
    kubectl get pods --all-namespaces
