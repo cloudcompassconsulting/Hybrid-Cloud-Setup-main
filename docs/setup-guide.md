@@ -196,7 +196,6 @@ kubectl set image deployment/nextjs-app nextjs-app=registry.local.probarra.xyz/p
 ```
 6. Enable Garbage Collection
    - To optimize storage, run garbage collection:
-
 ``` bash
 kubectl apply -f gc-registry.yaml 
 ```
