@@ -39,7 +39,7 @@ Components and Workflow
 - Google Cloud account for VPS setup.
 - WireGuard for VPN.
 - Router.
-- Wordpress account.
+- Wordpress.
 - Stripe account.
 
 
@@ -47,8 +47,7 @@ Components and Workflow
 
 This project integrates WordPress as a headless CMS and Stripe as the payment gateway. Below are the steps to set up these services:
 
-### 1. Create Accounts
-- Open an account in **WordPress** (https://wordpress.com/) to host your backend.
+### 1. Create Account
 - Register for a **Stripe** account (https://stripe.com/) to enable payment processing.
 
 ### 2. Install WordPress Plugins

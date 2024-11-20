@@ -36,45 +36,13 @@ This hybrid cloud architecture involves:
 
 This section covers the integration of WordPress as the CMS and Stripe as the payment gateway for your e-commerce application.
 
-## Step 1: Create WordPress and Stripe Accounts
-1. **WordPress:**
-   - Register at [WordPress](https://wordpress.com/).
-   - Set up a basic site or a self-hosted WordPress instance if using Kubernetes.
-
-2. **Stripe:**
-   - Open an account at [Stripe](https://stripe.com/).
-   - Complete the onboarding process to enable payment processing.
-
-- Install Necessary Plugins
-1. Log in to the WordPress admin dashboard.
-2. Navigate to **Plugins > Add New**.
-3. Install and activate the following plugins:
-   - **JSON Basic Authentication** (version 0.1): Required for API authentication.
-   - **WooCommerce** (version 9.0.2): Adds e-commerce functionality.
-
-- Generate Access Keys
-1. In **WooCommerce Settings**, navigate to the **Payments** tab.
-2. Connect your WooCommerce store to Stripe using your Stripe account.
-3. Generate and save the following Stripe API keys:
-   - **Publishable Key**.
-   - **Secret Key**.
-
-- Configure APIs
-1. Enable WordPress REST API by ensuring the **JSON Basic Authentication** plugin is active.
-2. Test the connection:
-   - Use the following curl command to verify the REST API:
-     ```bash
-     curl -X GET https://yourwordpresssite.com/wp-json/wp/v2/posts -u admin:password
-     ```
-   - Replace `admin` and `password` with your WordPress credentials.
-
-3. Configure WooCommerce API:
-   - Navigate to **WooCommerce > Advanced > REST API**.
-   - Create API keys for the consumer.
-   - Use these keys to interact with the WooCommerce API, e.g.:
-     ```bash
-     curl -X GET https://yourwordpresssite.com/wp-json/wc/v3/products -u consumer_key:consumer_secret
-     ```
+## Step 1: Set WordPress and Stripe.
+1. Create a env file and update your WordPressSite URL and Frontend next.js URL.
+• NEXT_PUBLIC_WORDPRESS_URL=https:// example.com
+• NEXT_PUBLIC_SITE_URL=http://localhost.com ( This will be your frontend Next.js URL)
+2. Add your wC_CONSUMER_KEY and WC_CONSUMER_SECRET to the . env by following WooCommerce > Settings > Advanced > REST API
+3. In your WordPress Dashboard, Go to Settings > General > Site Address (URL) ( Set this to Frontend URL e.g. http://localhost:3000 during development)
+4. Create the Header and Footer Menus In WordPress Dashboard and set them to HCMS Header menu and HCMS Footer Menu respectively.
 
 
 ## Step 2: Domain Configuration
