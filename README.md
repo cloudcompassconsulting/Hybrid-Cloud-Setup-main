@@ -43,29 +43,6 @@ Components and Workflow
 - Stripe account.
 
 
-## WordPress and Stripe Setup
-
-This project integrates WordPress as a headless CMS and Stripe as the payment gateway. Below are the steps to set up these services:
-
-### 1. Create Account
-- Register for a **Stripe** account (https://stripe.com/) to enable payment processing.
-
-### 2. Install WordPress Plugins
-- Add the following plugins to your WordPress installation:
-  - **JSON Basic Authentication** (version 0.1): Enables secure API communication.
-  - **WooCommerce** (version 9.0.2): Adds e-commerce functionality to WordPress.
-
-### 3. Generate Access Keys
-- In WordPress, navigate to the **WooCommerce Settings** and connect your store to Stripe.
-- Generate the API keys from Stripe's dashboard (Publishable Key and Secret Key) and configure them in the WooCommerce Stripe plugin.
-
-### 4. Configure WordPress REST API
-- Enable and test the WordPress REST API. Ensure the **JSON Basic Authentication** plugin is active to allow secure API calls.
-- Test the WooCommerce API endpoints (e.g., products, orders) using tools like Postman or curl:
-  ```bash
-  curl -X GET https://yourwordpresssite.com/wp-json/wc/v3/products -u consumer_key:consumer_secret
-
-
 ## Installation and Setup
 1. Domain Setup:
   Acquire a domain from Cloudflare and configure DNS records.
