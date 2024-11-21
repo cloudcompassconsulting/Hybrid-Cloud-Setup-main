@@ -54,13 +54,11 @@ This section covers the integration of WordPress as the CMS and Stripe as the pa
 - Test the WooCommerce API endpoints (e.g., products, orders) using tools like Postman or curl:
   ```bash
   curl -X GET https://yourwordpresssite.com/wp-json/wc/v3/products -u consumer_key:consumer_secret
-  
+
 1. Create a env file and update your WordPressSite URL and Frontend next.js URL.
 • NEXT_PUBLIC_WORDPRESS_URL=https:// example.com
 • NEXT_PUBLIC_SITE_URL=http://localhost.com ( This will be your frontend Next.js URL)
 2. Add your wC_CONSUMER_KEY and WC_CONSUMER_SECRET to the . env by following WooCommerce > Settings > Advanced > REST API
-3. In your WordPress Dashboard, Go to Settings > General > Site Address (URL) ( Set this to Frontend URL e.g. http://localhost:3000 during development)
-4. Create the Header and Footer Menus In WordPress Dashboard and set them to HCMS Header menu and HCMS Footer Menu respectively.
 
 
 ## Step 2: Domain Configuration
@@ -95,29 +93,18 @@ qm set 5000 --serial0 socket --vga serial0
 
 
 ## Step 4: Configure WireGuard VPN
-1. **Install WireGuard on the VPS**:
-   ```bash
-   wget https://git.io/wireguard -O wireguard-install.sh
-    bash wireguard-install.sh 
-   ```
-2. **Configure `iptables`** for traffic routing. Refer to:
+1. **Install and configure WireGuard on the VPS**:
    - [WireGuard Configuration](../vpn-setup/vps/wg_vps.sh) in this repository.
-   - [WireGuard by mochman](https://github.com/mochman/Bypass_CGNAT).
+   This script creates a configuration file for the server and the client.
+   - Reference: [WireGuard by mochman](https://github.com/mochman/Bypass_CGNAT).
+
+2. ** Modify the wg0.conf file in the server to forward trafic to the client**:
+   - This file is located at /etc/wireguard/wg0.conf 
+   Follow the example: [wg0.conf] (../vpn-setup/vps/wg0.conf)
+
 3. **Set up WireGuard on the local client VM**:
-   - Install wireguard in the client VM:
-     ```bash
-       wget https://git.io/wireguard -O wireguard-install.sh
-      bash wireguard-install.sh
-     ```
-   - Create a configuration file (`wg0.conf`):
-     [Wireguard Configuration](../vpn-setup/client/wg0.conf) in this repository.
-   - Enable WireGuard as a service:
-     ```bash
-     sudo systemctl enable wg-quick@wg0
-     sudo systemctl start wg-quick@wg0
-     ```
-   - Set the client IP tables (wireguard-client-iptables.sh):
-     [Wireguard Configuration](../vpn-setup/client/wireguard-client-iptables.sh) in this repository.
+   - First, copy the client.conf file from the VPS to the client VM where you are going to run the script. 
+   - On the client VM, run the [wireguard-client-iptables.sh] file (../vpn-setup/client/wireguard-client-iptables.sh) 
 
 
 ## Step 5: Install K3s
@@ -225,27 +212,42 @@ docker login registry.local.example.com
   kubectl apply -f gc-registry.yaml
   ```
 
-## Step 8: Update the deployment
-Refer to the [update deployment script](../nextjs/headless-wp/update-deployment.sh). in this repository.
 
+## Step 8: Application Deployment
 
-## Step 9: Application Deployment
-### WordPress and MySQL
-1. Apply the WordPress deployment:
+1. Dockerize the Application
+   - First, build the Docker image for your Next.js application locally:  
    ```bash
-   kubectl apply -f kubernetes/wordpress/deployment.yaml
+   sudo docker buildx build --platform linux/amd64 -t probarra-nextjs-app:local .
    ```
-2. Deploy MySQL:
+2. Tag and Push the Image to the Local Registry
+   - Tag the image to point to the private registry:
+   ```bash
+   sudo docker tag probarra-nextjs-app:local registry.local.example.com/probarra-nextjs-app:local
+   ```
+   - Push the image to the private registry:
+   ```bash
+   sudo docker push registry.local.example.com/probarra-nextjs-app:local
+   ```
+3. Deploy MySQL
+   - Deploy the database first, as WordPress depends on it to function:  
    ```bash
    kubectl apply -f kubernetes/mysql/deployment.yaml
    ```
-
-### Frontend (Next.js)
-1. Dockerize the application (if not already done).
-2. Deploy the frontend:
+4. Apply the WordPress Deployment
+   - Configure WordPress in the cluster, connecting it to the MySQL database:  
+   ```bash
+   kubectl apply -f kubernetes/wordpress/deployment.yaml
+   ```
+5. Deploy the Frontend
+   - Finally, deploy the Next.js frontend, which is already configured to consume the WordPress and WooCommerce APIs:  
    ```bash
    kubectl apply -f kubernetes/nextjs/deployment.yaml
    ```
+6. Deploy all the remaining .yaml
+
+## Step 9: Update the frontend deployment
+Refer to the [update deployment](../nextjs/headless-wp/update-deployment.sh). in this repository.
 
 
 ## Step 10: Testing and Validation
