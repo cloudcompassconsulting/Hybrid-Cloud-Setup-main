@@ -3,6 +3,11 @@
 ## Overview
 This repository provides a hybrid cloud setup for deploying an e-commerce application using Next.js for the frontend, WordPress for the backend, and Kubernetes for orchestration. Traffic is securely routed from a Google Cloud VPS to a local Kubernetes cluster via a VPN.
 
+
+## Setup-guide
+This document provides detailed instructions for deployment
+[setup-guide](docs/setup-guide.md)
+
 ## Features
 - Frontend: Next.js application for e-commerce.
 - Backend: WordPress headless CMS with REST API.
@@ -52,7 +57,7 @@ Components and Workflow
 
 3. Create and manage virtual machines:
     - Use Proxmox to virtualize the Kubernetes cluster. Set up virtual machines for the worker and master nodes as well as the WireGuard client VM.
-    Go to [createvm.md] (proxmox/createvm.md).
+    Go to [createvm](proxmox/createvm.md).
 
     - Now, the hostnames and IP addresses must be configured in the router in order to install and configure K3S in the cluster. Static IPs were created for each virtual machine, promox according to the IPS range allowed by the router.      
   
@@ -61,13 +66,13 @@ Components and Workflow
 4. VPN Configuration:
   Configure a secure VPN using WireGuard to connect the VPS with the local cluster.
 
-  - Follow the instructions Step 4: Configure WireGuard VPN [setup-guide] (docs/setup-guide.md) that refers to [vpn-setup] folder. 
-  Use: [wg_vps.sh] (vpn-setup/vps/wg_vps.sh)
+  - Follow the instructions Step 4: Configure WireGuard VPN [setup-guide](docs/setup-guide.md) that refers to [vpn-setup] folder. 
+  Use: [wg_vps.sh](vpn-setup/vps/wg_vps.sh)
 
   - Later, we need to install wireguard in the VM client that is inside the mini pc and set the configuration like a wireguard client. WireGuard creates the /etc/wireguard directory where the configuration files should be placed. Then, the client configuration file wg0.conf is created. In this file, the information previously generated in vm.conf is pasted and WireGuard is added as a service to the system with systemctl commands. 
 
   - Finally, we need to set the iptables to route the trafic. 
-  Go to [wireguard-client-iptables.sh] (vpn-setup/client/wireguard-client-iptables.sh)
+  Go to [wireguard-client-iptables](vpn-setup/client/wireguard-client-iptables.sh)
 
    - Reference: To install wireguard [wireguard-install] (https://github.com/Nyr/wireguard-install) script by Nyr. 
    - Reference:To set the ip tables refer to this [WireGuard configuration example by mochman](https://github.com/mochman/Bypass_CGNAT/blob/main/Wireguard%20Configs/VPS/wg0.conf). by mochman.
@@ -75,7 +80,7 @@ Components and Workflow
 5. Kubernetes Cluster Setup:
   Install K3s on the mini PC, configure nodes, and set up Traefik and MetalLB for load balancing.
 
-  - For installation [k3s.sh] (k3s/k3s.sh) 
+  - For installation [k3s](k3s/k3s.sh) 
 
   - Configure local DNS entries on the router to resolve the virtual IP of the load balancer.
 
