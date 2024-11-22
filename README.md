@@ -5,7 +5,7 @@ This repository provides a hybrid cloud setup for deploying an e-commerce applic
 
 
 ## Setup-guide
-This document provides detailed instructions for deployment
+This document provides detailed instructions for deployment:
 [setup-guide](docs/setup-guide.md)
 
 ## Features
